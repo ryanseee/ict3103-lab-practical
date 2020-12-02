@@ -1,5 +1,10 @@
 pipeline {
-	agent none
+	agent any
+	tools {
+		nodejs "node"
+		jdk "openjdk-11"
+		maven "Maven 3.6.3"
+	}
 	stages {
 		stage('Integration UI Test') {
 			parallel {
@@ -12,12 +17,12 @@ pipeline {
 					}
 				}
 				stage('Headless Browser Test') {
-					agent {
-						docker {
-							image 'maven:3-alpine' 
-							args '-v /root/.m2:/root/.m2' 
-						}
-					}
+					//agent {
+						//docker {
+						//	image 'maven:3-alpine' 
+						//	args '-v /root/.m2:/root/.m2' 
+						//}
+					//}
 					steps {
 						sh 'mvn -B -DskipTests clean package'
 						sh 'mvn test'
